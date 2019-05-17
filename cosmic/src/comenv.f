@@ -68,10 +68,11 @@
       RZAMS = RZAMSF(M01)
 *
 * Decide which CE prescription to use based on LAMBDA flag
-* MJZ: NOTE - Nanjing lambda prescription DOES NOT WORK!
 *
       IF(LAMBDA.EQ.1.0)THEN
          LAMB1 = CELAMF(KW,M01,L1,R1,RZAMS,MENVD,LAMBDA)
+      ELSEIF(LAMBDA.EQ.2.0)THEN
+         LAMB1 = CELAMF_NANJING(KW,M01,L1,R1,RZAMS,MENVD,LAMBDA)
       ELSEIF(LAMBDA.LT.0.d0)THEN
          LAMB1 = -1.0*LAMBDA
       ENDIF
