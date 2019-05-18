@@ -974,9 +974,11 @@
 
 
 ***
-      real*8 FUNCTION celamf_nanjing(kw,m,lum,rad,rzams,menv,fac)
+      real*8 FUNCTION celamf_nanjing(kw,mzams,menv,zpars,rad,rzams,lam)
       implicit none
-      integer kw
+      integer kw,ceidx
+      real*8 mzams,rad,rzams,menv,lam,zpars(20)
+      real*8 met,x,lambda_b,lambda_g,popI_popII_Z
       integer stage(44)
       real*8 masses(44)
       real*8 a_popI_lambdab(44),a_popI_lambdag(44)
@@ -991,16 +993,10 @@
       double precision b4_popII_lambdab(44),b4_popII_lambdag(44)
       double precision b5_popI_lambdab(44),b5_popI_lambdag(44)
       double precision b5_popII_lambdab(44),b5_popII_lambdag(44)
-
-
-
-      real*8 m,lum,rad,rzams,menv,fac
-      real*8 lam1,lam2,m1,logm,logl
-      real*8 aa,bb,cc,dd
 *
 * A function that uses the fitting formulae from Xu & Li 2010
 * to determine lambda for common-envelope.
-* Written by MJZ, 2019
+* Written by Michael Zevin, 2019
 *
 
 * Values for all fitting parameters
@@ -1515,9 +1511,89 @@
      &     0.000000d+00,0.000000d+00,0.000000d+00
      &     0.000000d+00,-1.512070d-13)
 
+* find the stage/mass that matches the input, save as ceidx
+      if(kw.ge.2.and.kw.lt.4)then
+         stage_num=1
+      elseif(kw.eq.4.or.kw.eq.7)then
+         stage_num=2
+      elseif((kw.ge.4.and.kw.lt.7).or.(kw.ge.8)then
+         stage_num=3
+      else
+         celamf_nanjing = 0.5d0
+         goto 90
+      endif
+
+      DO i=1, SIZE(stage)
+         IT(stage(i).eq.stage_num)THEN
+            if(masses(i).eq.1.and.mzams.lt.1)then
+               ceidx=i
+            elseif(stage(i).eq.1.and.masses(i).eq.20.and.mzams.ge.20)then
+               ceidx=i
+            elseif(stage(i).eq.2.and.masses(i).eq.20.and.mzams.ge.20)then
+               ceidx=i
+            elseif(stage(i).eq.3.and.masses(i).eq.100.and.mzams.ge.100)then
+               ceidx=i
+            else
+               if(mzams.ge.masses(i).and.mzams.lt.masses(i+1))then
+                  ceidx=i
+               endif
+            endif
+         ENDIF
+      ENDDO
 
 
+* do something based on metallicity here to separate out the popI and popII
+      met = 1d0 - (zpars(11)+zpars(12))
+      popI_popII_Z = 0.01
 
+      IF(met.GE.popI_popII_Z)THEN:
+         if(ceidx.eq.1.or.ceidx.eq.15.or.ceidx.eq.29.or.ceidx.eq.42)then
+            x = menv/mzams
+         else
+            x = rad
+         endif
+
+         lambda_g = a_popI_lambdag(idx)+b1_popI_lambdag(idx)*x
+     &     +b2_popI_lambdag(idx)*x**2+b3_popI_lambdag(idx)*x**3
+     &     +b4_popI_lambdag(idx)*x**4+b5_popI_lambdag(idx)*x**5
+
+         lambda_b = a_popI_lambdab(idx)+b1_popI_lambdab(idx)*x
+     &     +b2_popI_lambdab(idx)*x**2+b3_popI_lambdab(idx)*x**3
+     &     +b4_popI_lambdab(idx)*x**4+b5_popI_lambdab(idx)*x**5
+
+         if(ceidx.eq.1.or.ceidx.eq.15.or.ceidx.eq.29.or.ceidx.eq.42)then
+            lambda_g = 1d0/lambda_g
+            lambda_b = 1d0/lambda_b
+         elseif(ceidx.eq.31.or.ceidx.eq.32.or.ceidx.eq.33)then
+            lambda_g = EXP(lambda_g)
+            lambda_b = EXP(lambda_b)
+         endif
+
+      ELSEIF(met.LT.popI_popII_Z)THEN:
+         x = rad
+
+         lambda_g = a_popII_lambdag(idx)+b1_popII_lambdag(idx)*x
+     &     +b2_popII_lambdag(idx)*x**2+b3_popII_lambdag(idx)*x**3
+     &     +b4_popII_lambdag(idx)*x**4+b5_popII_lambdag(idx)*x**5
+
+         lambda_b = a_popII_lambdab(idx)+b1_popII_lambdab(idx)*x
+     &     +b2_popII_lambdab(idx)*x**2+b3_popII_lambdab(idx)*x**3
+     &     +b4_popII_lambdab(idx)*x**4+b5_popII_lambdab(idx)*x**5
+
+         if(ceidx.eq.31.or.ceidx.eq.32)then
+            lambda_g = EXP(lambda_g)
+            lambda_b = EXP(lambda_b)
+         endif
+
+      ENDIF
+
+* combine lambda_b and lambda_g according to the number lam
+* lambda_g assumes the internal energy does not contribute
+* lambda_b assumes 100% of the internal energy contributes
+      celamf_nanjing = (lam*lambda_b)+((1d0-lam)*lambda_g)
+
+*
+ 90      continue
 *
       return
       end
