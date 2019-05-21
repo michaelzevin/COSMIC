@@ -1521,14 +1521,10 @@
             endif
          ENDIF
       ENDDO
-      print *, mzams
-      print *, masses(ceidx)
-      print *, ceidx
 
 
 * do something based on metallicity here to separate out the popI and popII
       met = 1d0 - (zpars(11)+zpars(12))
-      print *, met
       popI_popII_Z = 0.01
 
       IF(met.ge.popI_popII_Z)THEN
@@ -1584,7 +1580,6 @@
 * lambda_g assumes the internal energy does not contribute
 * lambda_b assumes 100% of the internal energy contributes
       celamf_nanjing = (lam*lambda_b)+((1d0-lam)*lambda_g)
-      print *, celamf_nanjing
 
 *
  90      continue
