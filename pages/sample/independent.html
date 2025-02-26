@@ -1,0 +1,658 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Multidimensional distributions" href="multidim.html" /><link rel="prev" title="Sampling initial populations" href="../runpop.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Independent distributions - COSMIC v3.6.0</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=5349f25f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/solid.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cosmic-docs.css?v=4e6f89a8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-grid.min.css?v=ebdf2caa" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #3f95e1;
+  --color-brand-content: #3f95e1;
+  --color-brand-visited: #3f95e1;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #f08c33;
+  --color-brand-content: #f08c33;
+  --color-brand-visited: #f08c33;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #f08c33;
+  --color-brand-content: #f08c33;
+  --color-brand-visited: #f08c33;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand"><span class='hide-me'>COSMIC </span>v3.6.0</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="https://cosmic-popsynth.github.io/images/cosmic-popsynth_1200.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text"><span class='hide-me'>COSMIC </span>v3.6.0</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference_material.html">Configuration and output</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Configuration and output</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../inifile.html">Configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../output_info.html">Understanding COSMIC outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Evolving binaries</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Evolving binaries</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../evolve/single.html">Evolving a single binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evolve/multiple.html">Evolving multiple binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evolve/grid.html">Evolving a fixed grid of binaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evolve/evolve_sample.html">Evolving a Monte-Carlo sampled population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evolve/resolution.html">Dynamic time resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../evolve/restart.html">Restarting a binary</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../runpop.html">Sampling initial populations</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Sampling initial populations</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Independent distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multidim.html">Multidimensional distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cluster.html">ClusterMonteCarlo Sampling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../fixedpop.html">Generate a population the <cite>COSMIC</cite> way</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cite.html">Citing COSMIC</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../developers.html">For Developers</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of For Developers</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../develop/how-it-works.html">Codebase overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../develop/new-settings.html">Creating new settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../develop/adding-options.html">Adding options to existing settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../develop/debugging-vscode.html">Debugging COSMIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../develop/settings-json-file.html"><code class="docutils literal notranslate"><span class="pre">cosmic-settings.json</span></code> file explained</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="https://github.com/COSMIC-popsynth/COSMIC/blob/develop/docs/pages/sample/independent.rst?plain=true" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div><div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/COSMIC-popsynth/COSMIC/edit/develop/docs/pages/sample/independent.rst" title="Edit this page">
+    <svg><use href="#svg-pencil"></use></svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="independent-distributions">
+<span id="independent"></span><h1>Independent distributions<a class="headerlink" href="#independent-distributions" title="Link to this heading">¶</a></h1>
+<p>This guide will show you how to sample an initial binary population using the independent sampler in COSMIC.
+First import the <a class="reference internal" href="../../api/cosmic.sample.initialbinarytable.html#cosmic.sample.initialbinarytable.InitialBinaryTable" title="cosmic.sample.initialbinarytable.InitialBinaryTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">InitialBinaryTable</span></code></a> class and the independent sampler</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [1]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">cosmic.sample.initialbinarytable</span><span class="w"> </span><span class="kn">import</span> <span class="n">InitialBinaryTable</span>
+
+<span class="gp">In [2]: </span><span class="kn">from</span><span class="w"> </span><span class="nn">cosmic.sample.sampler</span><span class="w"> </span><span class="kn">import</span> <span class="n">independent</span>
+</pre></div>
+</div>
+<p>The independent sampler contains multiple models for each binary parameter.
+You can access the available models using the independent sampler help call:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [3]: </span><span class="n">help</span><span class="p">(</span><span class="n">independent</span><span class="o">.</span><span class="n">get_independent_sampler</span><span class="p">)</span>
+<span class="go">Help on function get_independent_sampler in module cosmic.sample.sampler.independent:</span>
+
+<span class="go">get_independent_sampler(final_kstar1, final_kstar2, primary_model, ecc_model, porb_model, SF_start, SF_duration, binfrac_model, met, size=None, total_mass=inf, sampling_target=&#39;size&#39;, trim_extra_samples=False, q_power_law=0, **kwargs)</span>
+<span class="go">    Generates an initial binary sample according to user specified models</span>
+<span class="go">    </span>
+<span class="go">    Parameters</span>
+<span class="go">    ----------</span>
+<span class="go">    final_kstar1 : `int or list`</span>
+<span class="go">        Int or list of final kstar1</span>
+<span class="go">    </span>
+<span class="go">    final_kstar2 : `int or list`</span>
+<span class="go">        Int or list of final kstar2</span>
+<span class="go">    </span>
+<span class="go">    primary_model : `str`</span>
+<span class="go">        Model to sample primary mass; choices include: kroupa93, kroupa01, salpeter55, custom</span>
+<span class="go">        if &#39;custom&#39; is selected, must also pass arguemts:</span>
+<span class="go">        alphas : `array`</span>
+<span class="go">            list of power law indicies</span>
+<span class="go">        mcuts : `array`</span>
+<span class="go">            breaks in the power laws.</span>
+<span class="go">        e.g. alphas=[-1.3,-2.3,-2.3],mcuts=[0.08,0.5,1.0,150.] reproduces standard Kroupa2001 IMF</span>
+<span class="go">    </span>
+<span class="go">    ecc_model : `str`</span>
+<span class="go">        Model to sample eccentricity; choices include: thermal, uniform, sana12</span>
+<span class="go">    </span>
+<span class="go">    porb_model : `str` or `dict`</span>
+<span class="go">        Model to sample orbital period; choices include: log_uniform, sana12, raghavan10, moe19</span>
+<span class="go">        or a custom power law distribution defined with a dictionary with keys &quot;min&quot;, &quot;max&quot;, and &quot;slope&quot;</span>
+<span class="go">        (e.g. {&quot;min&quot;: 0.15, &quot;max&quot;: 0.55, &quot;slope&quot;: -0.55}) would reproduce the Sana+2012 distribution</span>
+<span class="go">    </span>
+<span class="go">    qmin : `float`</span>
+<span class="go">        kwarg which sets the minimum mass ratio for sampling the secondary</span>
+<span class="go">        where the mass ratio distribution is flat in q</span>
+<span class="go">        if q &gt; 0, qmin sets the minimum mass ratio</span>
+<span class="go">        q = -1, this limits the minimum mass ratio to be set such that</span>
+<span class="go">        the pre-MS lifetime of the secondary is not longer than the full</span>
+<span class="go">        lifetime of the primary if it were to evolve as a single star</span>
+<span class="go">    </span>
+<span class="go">    m_max : `float`</span>
+<span class="go">        kwarg which sets the maximum primary and secondary mass for sampling</span>
+<span class="go">        NOTE: this value changes the range of the IMF and should *not* be used</span>
+<span class="go">            as a means of selecting certain kstar types!</span>
+<span class="go">    </span>
+<span class="go">    m1_min : `float`</span>
+<span class="go">        kwarg which sets the minimum primary mass for sampling</span>
+<span class="go">        NOTE: this value changes the range of the IMF and should *not* be used</span>
+<span class="go">            as a means of selecting certain kstar types!</span>
+<span class="go">    </span>
+<span class="go">    m2_min : `float`</span>
+<span class="go">        kwarg which sets the minimum secondary mass for sampling</span>
+<span class="go">        the secondary as uniform in mass_2 between m2_min and mass_1</span>
+<span class="go">    </span>
+<span class="go">    msort : `float`</span>
+<span class="go">        Stars with M&gt;msort can have different pairing and sampling of companions</span>
+<span class="go">    </span>
+<span class="go">    qmin_msort : `float`</span>
+<span class="go">        Same as qmin for M&gt;msort</span>
+<span class="go">    </span>
+<span class="go">    m2_min_msort : `float`</span>
+<span class="go">        Same as m2_min for M&gt;msort</span>
+<span class="go">    </span>
+<span class="go">    SF_start : `float`</span>
+<span class="go">        Time in the past when star formation initiates in Myr</span>
+<span class="go">    </span>
+<span class="go">    SF_duration : `float`</span>
+<span class="go">        Duration of constant star formation beginning from SF_Start in Myr</span>
+<span class="go">    </span>
+<span class="go">    binfrac_model : `str or float`</span>
+<span class="go">        Model for binary fraction; choices include: vanHaaften, offner22, or a fraction where 1.0 is 100% binaries</span>
+<span class="go">    </span>
+<span class="go">    binfrac_model_msort : `str or float`</span>
+<span class="go">        Same as binfrac_model for M&gt;msort</span>
+<span class="go">    </span>
+<span class="go">    met : `float`</span>
+<span class="go">        Sets the metallicity of the binary population where solar metallicity is zsun</span>
+<span class="go">    </span>
+<span class="go">    size : `int`</span>
+<span class="go">        Size of the population to sample</span>
+<span class="go">    </span>
+<span class="go">    total_mass : `float`</span>
+<span class="go">        Total mass to use as a target for sampling</span>
+<span class="go">    </span>
+<span class="go">    sampling_target : `str`</span>
+<span class="go">        Which type of target to use for sampling (either &quot;size&quot; or &quot;total_mass&quot;), by default &quot;size&quot;.</span>
+<span class="go">        Note that `total_mass` must not be None when `sampling_target==&quot;total_mass&quot;`.</span>
+<span class="go">    </span>
+<span class="go">    trim_extra_samples : `str`</span>
+<span class="go">        Whether to trim the sampled population so that the total mass sampled is as close as possible to</span>
+<span class="go">        `total_mass`. Ignored when `sampling_target==size`.</span>
+<span class="go">        Note that given the discrete mass of stars, this could mean your sample is off by 300</span>
+<span class="go">        solar masses in the worst case scenario (of a 150+150 binary being sampled). In reality the majority</span>
+<span class="go">        of cases track the target total mass to within a solar mass.        </span>
+<span class="go">    </span>
+<span class="go">    zsun : `float`</span>
+<span class="go">        optional kwarg for setting effective radii, default is 0.02</span>
+<span class="go">    </span>
+<span class="go">    q_power_law : `float`</span>
+<span class="go">        Exponent for the mass ratio distribution power law, default is 0 (flat in q). Note that</span>
+<span class="go">        q_power_law cannot be exactly -1, as this would result in a divergent distribution.</span>
+<span class="go">    </span>
+<span class="go">    </span>
+<span class="go">    Returns</span>
+<span class="go">    -------</span>
+<span class="go">    InitialBinaryTable : `pandas.DataFrame`</span>
+<span class="go">        DataFrame in the format of the InitialBinaryTable</span>
+<span class="go">    </span>
+<span class="go">    mass_singles : `float`</span>
+<span class="go">        Total mass in single stars needed to generate population</span>
+<span class="go">    </span>
+<span class="go">    mass_binaries : `float`</span>
+<span class="go">        Total mass in binaries needed to generate population</span>
+<span class="go">    </span>
+<span class="go">    n_singles : `int`</span>
+<span class="go">        Number of single stars needed to generate a population</span>
+<span class="go">    </span>
+<span class="go">    n_binaries : `int`</span>
+<span class="go">        Number of binaries needed to generate a population</span>
+</pre></div>
+</div>
+<section id="targetting-specific-final-kstar-types">
+<h2>Targetting specific final kstar types<a class="headerlink" href="#targetting-specific-final-kstar-types" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">final_kstar1</span></code> and <code class="docutils literal notranslate"><span class="pre">final_kstar2</span></code> parameters are lists that contain the kstar types
+that you would like the final population to contain.</p>
+<p>The final kstar is the final state of the binary system we are interested in and is based on the BSE kstar naming convention, see <a class="reference internal" href="../output_info.html#kstar-table"><span class="std std-ref">Evolutionary State of the Star</span></a> for more information.</p>
+<p>Thus, if you want to generate a
+population containing double white dwarfs with CO and ONe WD primaries and He-WD secondaries,
+the final kstar inputs would be:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [4]: </span><span class="n">final_kstar1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+
+<span class="gp">In [5]: </span><span class="n">final_kstar2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Since we are interested in binaries, we only retain the binary systems that are likely to produce the user specified final kstar types.
+However, we also keep track of the total mass of the single and binary stars as well as the number of binary and single stars so that we can scale our results to larger populations.
+If you don’t want to filter the binaries, you can supply final kstars as</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [6]: </span><span class="n">final_kstars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+
+<span class="gp">In [7]: </span><span class="n">InitialBinaries</span><span class="p">,</span> <span class="n">mass_singles</span><span class="p">,</span> <span class="n">mass_binaries</span><span class="p">,</span> <span class="n">n_singles</span><span class="p">,</span> <span class="n">n_binaries</span> <span class="o">=</span> <span class="n">InitialBinaryTable</span><span class="o">.</span><span class="n">sampler</span><span class="p">(</span><span class="s1">&#39;independent&#39;</span><span class="p">,</span> <span class="n">final_kstars</span><span class="p">,</span> <span class="n">final_kstars</span><span class="p">,</span> <span class="n">binfrac_model</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">primary_model</span><span class="o">=</span><span class="s1">&#39;kroupa01&#39;</span><span class="p">,</span> <span class="n">ecc_model</span><span class="o">=</span><span class="s1">&#39;sana12&#39;</span><span class="p">,</span> <span class="n">porb_model</span><span class="o">=</span><span class="s1">&#39;sana12&#39;</span><span class="p">,</span> <span class="n">qmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">m2_min</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">SF_start</span><span class="o">=</span><span class="mf">13700.0</span><span class="p">,</span> <span class="n">SF_duration</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">met</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Additionally if you are interested in single stars then you can specify <code class="docutils literal notranslate"><span class="pre">keep_singles=True</span></code>.</p>
+</section>
+<section id="understanding-parameter-sampling-models">
+<h2>Understanding parameter sampling models<a class="headerlink" href="#understanding-parameter-sampling-models" title="Link to this heading">¶</a></h2>
+<p>Similar to the help for the sampler, the different models that can be used for each parameter
+to be sampled can be accessed by the help function for the argument. The syntax for each parameter
+sample is always: sample_`parameter`. See the example for the star formation
+history (SFH) below:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [8]: </span><span class="n">help</span><span class="p">(</span><span class="n">independent</span><span class="o">.</span><span class="n">Sample</span><span class="o">.</span><span class="n">sample_SFH</span><span class="p">)</span>
+<span class="go">Help on function sample_SFH in module cosmic.sample.sampler.independent:</span>
+
+<span class="go">sample_SFH(self, SF_start=13700.0, SF_duration=0.0, met=0.02, size=None)</span>
+<span class="go">    Sample an evolution time for each binary based on a user-specified</span>
+<span class="go">    time at the start of star formation and the duration of star formation.</span>
+<span class="go">    The default is a burst of star formation 13,700 Myr in the past.</span>
+<span class="go">    </span>
+<span class="go">    Parameters</span>
+<span class="go">    ----------</span>
+<span class="go">    SF_start : float</span>
+<span class="go">        Time in the past when star formation initiates in Myr</span>
+<span class="go">    SF_duration : float</span>
+<span class="go">        Duration of constant star formation beginning from SF_Start in Myr</span>
+<span class="go">    met : float</span>
+<span class="go">        metallicity of the population [Z_sun = 0.02]</span>
+<span class="go">        Default: 0.02</span>
+<span class="go">    size : int, optional</span>
+<span class="go">        number of evolution times to sample</span>
+<span class="go">        NOTE: this is set in cosmic-pop call as Nstep</span>
+<span class="go">    </span>
+<span class="go">    Returns</span>
+<span class="go">    -------</span>
+<span class="go">    tphys : array</span>
+<span class="go">        array of evolution times of size=size</span>
+<span class="go">    metallicity : array</span>
+<span class="go">        array of metallicities</span>
+</pre></div>
+</div>
+</section>
+<section id="stopping-conditions-for-sampling">
+<h2>Stopping conditions for sampling<a class="headerlink" href="#stopping-conditions-for-sampling" title="Link to this heading">¶</a></h2>
+<p>In addition to telling <code class="docutils literal notranslate"><span class="pre">COSMIC</span></code> <em>how</em> to sample, you also need to tell it how <em>much</em> to sample. You can
+do this in one of two ways: (1) by specifying the number of binaries to sample, or (2) by specifying the total mass of singles and binaries to sample. Let’s look at both of these in more detail.</p>
+<section id="number-of-binaries">
+<h3>Number of binaries<a class="headerlink" href="#number-of-binaries" title="Link to this heading">¶</a></h3>
+<p>Using the final kstar inputs we mentioned above, the initial binary population can be sampled based on the desired number of binaries (10000 in this case) as follows</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [9]: </span><span class="n">InitialBinaries</span><span class="p">,</span> <span class="n">mass_singles</span><span class="p">,</span> <span class="n">mass_binaries</span><span class="p">,</span> <span class="n">n_singles</span><span class="p">,</span> <span class="n">n_binaries</span> <span class="o">=</span> <span class="n">InitialBinaryTable</span><span class="o">.</span><span class="n">sampler</span><span class="p">(</span><span class="s1">&#39;independent&#39;</span><span class="p">,</span> <span class="n">final_kstar1</span><span class="p">,</span> <span class="n">final_kstar2</span><span class="p">,</span> <span class="n">binfrac_model</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">primary_model</span><span class="o">=</span><span class="s1">&#39;kroupa01&#39;</span><span class="p">,</span> <span class="n">ecc_model</span><span class="o">=</span><span class="s1">&#39;sana12&#39;</span><span class="p">,</span> <span class="n">porb_model</span><span class="o">=</span><span class="s1">&#39;sana12&#39;</span><span class="p">,</span> <span class="n">qmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">m2_min</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">SF_start</span><span class="o">=</span><span class="mf">13700.0</span><span class="p">,</span> <span class="n">SF_duration</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">met</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="gp">In [10]: </span><span class="nb">print</span><span class="p">(</span><span class="n">InitialBinaries</span><span class="p">)</span>
+<span class="go">       kstar_1  kstar_2    mass_1    mass_2  ...  bhspin_1  bhspin_2  tphys  binfrac</span>
+<span class="go">0          1.0      1.0  1.715988  1.490909  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">1          1.0      1.0  0.863649  0.803246  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">2          1.0      0.0  0.922107  0.699386  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">3          1.0      1.0  1.549598  0.993874  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">4          1.0      1.0  1.287078  0.772630  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">...        ...      ...       ...       ...  ...       ...       ...    ...      ...</span>
+<span class="go">10039      1.0      1.0  2.560260  1.892963  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">10040      1.0      1.0  0.983484  0.876515  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">10041      1.0      0.0  1.138245  0.550008  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">10042      1.0      1.0  1.269011  1.257934  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">10043      1.0      1.0  2.698330  1.800682  ...       0.0       0.0    0.0      0.5</span>
+
+<span class="go">[10044 rows x 38 columns]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The length of the initial binary data set, <code class="docutils literal notranslate"><span class="pre">InitialBinaries</span></code>, does not always match
+the size parameter provided to <a class="reference internal" href="../../api/cosmic.sample.initialbinarytable.html#cosmic.sample.initialbinarytable.InitialBinaryTable.sampler" title="cosmic.sample.initialbinarytable.InitialBinaryTable.sampler"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sampler()</span></code></a>.
+This is because of the various cuts that the sampler makes to the population (e.g. the binary fraction,
+which is either a fraction between 0 and 1 or mass dependent following the
+prescription in <a class="reference external" href="http://adsabs.harvard.edu/abs/2012A%26A...537A.104V">van Haaften+2013</a>.) specified by the user.</p>
+</div>
+</section>
+<section id="total-mass-sampled">
+<h3>Total mass sampled<a class="headerlink" href="#total-mass-sampled" title="Link to this heading">¶</a></h3>
+<p>Alternatively, we could do the same thing but now instead set our <code class="docutils literal notranslate"><span class="pre">sampling_target</span></code> to be the total mass and aim for 15000 solar masses. This is done by setting <code class="docutils literal notranslate"><span class="pre">sampling_target=&quot;total_mass&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">total_mass=15000</span></code>.</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [11]: </span><span class="n">InitialBinaries</span><span class="p">,</span> <span class="n">mass_singles</span><span class="p">,</span> <span class="n">mass_binaries</span><span class="p">,</span> <span class="n">n_singles</span><span class="p">,</span> <span class="n">n_binaries</span> <span class="o">=</span> <span class="n">InitialBinaryTable</span><span class="o">.</span><span class="n">sampler</span><span class="p">(</span><span class="s1">&#39;independent&#39;</span><span class="p">,</span> <span class="n">final_kstar1</span><span class="p">,</span> <span class="n">final_kstar2</span><span class="p">,</span> <span class="n">binfrac_model</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">primary_model</span><span class="o">=</span><span class="s1">&#39;kroupa01&#39;</span><span class="p">,</span> <span class="n">ecc_model</span><span class="o">=</span><span class="s1">&#39;sana12&#39;</span><span class="p">,</span> <span class="n">porb_model</span><span class="o">=</span><span class="s1">&#39;sana12&#39;</span><span class="p">,</span> <span class="n">qmin</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">m2_min</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">SF_start</span><span class="o">=</span><span class="mf">13700.0</span><span class="p">,</span> <span class="n">SF_duration</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">met</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">sampling_target</span><span class="o">=</span><span class="s2">&quot;total_mass&quot;</span><span class="p">,</span> <span class="n">total_mass</span><span class="o">=</span><span class="mi">15000</span><span class="p">)</span>
+
+<span class="gp">In [12]: </span><span class="nb">print</span><span class="p">(</span><span class="n">InitialBinaries</span><span class="p">)</span>
+<span class="go">      kstar_1  kstar_2    mass_1    mass_2  ...  bhspin_1  bhspin_2  tphys  binfrac</span>
+<span class="go">0         1.0      1.0  1.035583  0.835998  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">1         1.0      1.0  0.951510  0.924857  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">2         1.0      1.0  1.351939  0.727992  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">3         1.0      0.0  3.239166  0.629694  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">4         1.0      1.0  2.002929  0.921669  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">...       ...      ...       ...       ...  ...       ...       ...    ...      ...</span>
+<span class="go">1332      1.0      1.0  6.372072  0.769274  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">1333      1.0      1.0  2.239466  0.884469  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">1334      1.0      1.0  2.466188  2.383919  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">1335      1.0      0.0  1.632684  0.550748  ...       0.0       0.0    0.0      0.5</span>
+<span class="go">1336      1.0      1.0  1.214975  1.155442  ...       0.0       0.0    0.0      0.5</span>
+
+<span class="go">[1337 rows x 38 columns]</span>
+</pre></div>
+</div>
+<p>And we can check what the total sampled mass was by looking at the sum of the <code class="docutils literal notranslate"><span class="pre">mass_singles</span></code> and <code class="docutils literal notranslate"><span class="pre">mass_binaries</span></code> variables</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="gp">In [13]: </span><span class="nb">print</span><span class="p">(</span><span class="n">mass_singles</span> <span class="o">+</span> <span class="n">mass_binaries</span><span class="p">)</span>
+<span class="go">22816.602858103794</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you’d like to avoid your sample overshooting your desired <code class="docutils literal notranslate"><span class="pre">total_mass</span></code> and instead get as close to this value as possible,
+you can set <code class="docutils literal notranslate"><span class="pre">trim_extra_samples=True</span></code>. This will trim the sample to get a total mass as close as possible to your target.
+In many cases, this will be within a solar mass, but could be as large as twice the maximum stellar mass (for the very rare case that
+the final binary drawn is the most massive primary with an equal mass ratio).</p>
+</div>
+</section>
+</section>
+<section id="mass-dependent-binary-fractions-and-mass-pairings">
+<h2>Mass dependent binary fractions and mass pairings<a class="headerlink" href="#mass-dependent-binary-fractions-and-mass-pairings" title="Link to this heading">¶</a></h2>
+<p>If you want to have separate binary fractions and mass pairings for low and high mass stars, you can by supplying the <code class="docutils literal notranslate"><span class="pre">msort</span></code> kwarg to the sampler. This sets the mass above which an alternative mass pairing (specified by kwargs <code class="docutils literal notranslate"><span class="pre">qmin_msort</span></code> and <code class="docutils literal notranslate"><span class="pre">m2_min_msort</span></code>) and binary fraction model (specified by kwarg <code class="docutils literal notranslate"><span class="pre">binfrac_model_msort</span></code>) are used. This is handy if you want, for example, a higher binary fraction and more equal mass pairings for high mass stars.</p>
+<p>Below we show the effect of different assumptions for the independent initial sampler. The standard assumptions are shown in purple, the assumptions of <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2012Sci...337..444S/abstract">Sana et al. 2012</a> are shown in orange, and the assumptions of <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2019ApJ...875...61M/abstract">Moe et al. 2019</a> are shown in green.</p>
+<p>(<a class="reference download internal" download="" href="../../_downloads/ab4dc8e6e37ae48438d0e30e15f7a435/independent-1.py"><code class="xref download docutils literal notranslate"><span class="pre">Source</span> <span class="pre">code</span></code></a>, <a class="reference download internal" download="" href="../../_downloads/1c0f597d50ebcccb2a28ea6331112f3c/independent-1.png"><code class="xref download docutils literal notranslate"><span class="pre">png</span></code></a>, <a class="reference download internal" download="" href="../../_downloads/5ccc203312bdbd8567756ac8ef2f52f1/independent-1.hires.png"><code class="xref download docutils literal notranslate"><span class="pre">hires.png</span></code></a>, <a class="reference download internal" download="" href="../../_downloads/87d46113376ba7f79a569e65050762be/independent-1.pdf"><code class="xref download docutils literal notranslate"><span class="pre">pdf</span></code></a>)</p>
+<figure class="align-default">
+<img alt="../../_images/independent-1.png" class="plot-directive" src="../../_images/independent-1.png" />
+</figure>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="multidim.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Multidimensional distributions</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../runpop.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Sampling initial populations</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021, Katie Breivik
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link fa-brands fa-solid fa-github fa-2x" href="https://github.com/COSMIC-PopSynth/COSMIC" aria-label="GitHub"></a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Independent distributions</a><ul>
+<li><a class="reference internal" href="#targetting-specific-final-kstar-types">Targetting specific final kstar types</a></li>
+<li><a class="reference internal" href="#understanding-parameter-sampling-models">Understanding parameter sampling models</a></li>
+<li><a class="reference internal" href="#stopping-conditions-for-sampling">Stopping conditions for sampling</a><ul>
+<li><a class="reference internal" href="#number-of-binaries">Number of binaries</a></li>
+<li><a class="reference internal" href="#total-mass-sampled">Total mass sampled</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mass-dependent-binary-fractions-and-mass-pairings">Mass dependent binary fractions and mass pairings</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=5eb46824"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/custom.js?v=fedf5a9c"></script>
+    </body>
+</html>
